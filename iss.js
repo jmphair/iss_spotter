@@ -13,8 +13,12 @@ const request = require('request');
 const fetchMyIP = function(callback) { 
   const url = 'https://api.ipify.org?format=json';
   request(url, (error, response, body) => {
- 
+    const ip = JSON.parse(body);
+    console.log(ip.ip); //dot notation to access the string that is the ip address inside the object
   });
 };
+
+//call the function
+fetchMyIP();
 
 module.exports = { fetchMyIP };
