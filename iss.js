@@ -10,15 +10,23 @@
 const request = require('request');
 
 
-const fetchMyIP = function(callback) { 
+const fetchMyIP = (callback) => {
   const url = 'https://api.ipify.org?format=json';
   request(url, (error, response, body) => {
-    const ip = JSON.parse(body);
-    console.log(ip.ip); //dot notation to access the string that is the ip address inside the object
+    //if invalid domain or user is offline, etc...
+    if (error) {
+      return callback(error, null);
+    }
+    //if non-200 status, assume there's a server error
+    if (response.statusCode !== 200) {
+      callback(Error(`Status Code ${response.statusCode} when fetching IP: ${body}`), null);
+      return;
+    }
+    // if we get here then it's the HAPPY PATH to the data we want!
+    const ip = JSON.parse(body).ip;
+    callback(null, ip);
+
   });
 };
-
-//call the function
-fetchMyIP();
 
 module.exports = { fetchMyIP };
