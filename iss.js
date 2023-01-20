@@ -29,4 +29,20 @@ const fetchMyIP = (callback) => {
   });
 };
 
-module.exports = { fetchMyIP };
+/*
+It should take in two arguments: ip (string) and callback (different than above)
+Add the function to the object properties being exported from iss.js
+For now, it can have an empty body and do nothing
+
+*/
+
+const fetchCoordsByIP = (ip, callback) => {
+  const ipWhoIs = `http://ipwho.is/${ip}`; 
+  request(ipWhoIs, (error, response, body) => {
+  console.log(ipWhoIs);
+  console.log(JSON.parse(body));
+
+  });
+};
+
+module.exports = { fetchMyIP, fetchCoordsByIP };
